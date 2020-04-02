@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using MediatR;
+using Application.Activities;
 
 namespace API
 {
@@ -27,9 +29,11 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(opt=>{
+            services.AddDbContext<DataContext>(opt=>
+            {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
+
             services.AddCors(opt => 
             {
                 opt.AddPolicy("CorsPolicy",policy=>
@@ -37,6 +41,7 @@ namespace API
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
                 });
             });
+            services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddControllers();
         }
 

@@ -15,6 +15,8 @@ namespace Persistence
 
         public DbSet<Value> Values {get;set;}
 
+        public DbSet<Activity> Activities {get;set;}
+
         //override a method available in dbcontext
 
         protected override void OnModelCreating(ModelBuilder builder)
